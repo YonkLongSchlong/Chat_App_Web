@@ -8,6 +8,8 @@
   --text-primary: #081c36;
   --item-hover: #eaedf0;
   --border: #d6dbe1;
+  --background-selected: #e5efff;
+  --color-7589A3: #7589A3;
 }
 body {
   font-family: "Rubik", sans-serif;
@@ -101,7 +103,6 @@ a {
   background-color: #eaedf0;
   border: none;
   font-weight: 400;
-  line-height: 1.5;
   line-height: 32px;
   width: 100%;
   box-sizing: border-box;
@@ -111,7 +112,6 @@ a {
 }
 .group-search {
   background-color: #eaedf0;
-  height: 32px;
   position: relative;
   width: 225px;
 }
@@ -318,11 +318,6 @@ a {
   width: 100%;
 }
 .toolbar-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-right: 10px;
 }
 .chat-input-icon {
@@ -335,6 +330,11 @@ a {
 }
 .icon{
   border-radius: 3px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .icon:hover {
   background-color: var(--item-hover);
@@ -385,20 +385,31 @@ a {
   align-items: center;
   height: 56px;
 }
+.contact-item:hover{
+  background-color: var(--item-hover);
+  cursor: pointer;
+}
+.select{
+  background-color: var(--background-selected);
+}
 .card-list-wrapper{
   margin: 0 auto;
   padding: 0 16px;
-  height: 500px;
+  height: 580px;
   background-color: #f7f7f8;
 }
 .card-list-wrapper .title{
   height: 64px;
   display: flex;
   align-items: center;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 .card-list-wrapper .card-contact{
   background-color: #fff;
   height: 100%;
+  padding-left: 16px;
 }
 .contact-filter{
   display: flex;
@@ -415,11 +426,165 @@ a {
   border-radius: 5px;
   background-color: #eaedf0;
   border: 1px solid #eaedf0;
+  margin-left: 8px;
 }
 .card-list-wrapper .label{
-  padding-left: 16px;
   font-size: 16px;
   font-weight: 600;
   line-height: 32px;
 }
-
+.friend-item{
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+.friend-item .name{
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-left: 12px;
+}
+.icon-more-img{
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.4);
+}
+.icon-more{
+  margin-right: 16px;
+}
+.contact-filter .group-search{
+  width: 333px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+.contact-filter #contact-search-input{
+  background-color: #fff;
+  border: var(--border);
+}
+.contact-filter-select .name-filter{
+  flex: 1;
+  font-size: 13px;
+  margin-left: 10px;
+}
+.contact-item-icon{
+  font-size: 20px;
+}
+.contact-item span{
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 16px;
+}
+.main-contact-header span{
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 16px;
+}
+.group-item{
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+}
+.avatar-container{
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.avatar-container>img{
+  width: 26px;
+  height: 26px;
+  border-radius: 15px;
+}
+.avatar-container>img:nth-child(1){
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.avatar-container>img:nth-child(2){
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.avatar-container>img:nth-child(3){
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.namegroup-quantity{
+  flex: 1;
+  margin-left: 12px;
+}
+.namegroup-quantity > .namegroup{
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.namegroup-quantity > .quantity{
+  font-size: 13px;
+  color: #7589A3;
+}
+.card-wrapper{
+  width: 364px;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 16px;
+}
+.card-user{
+  display: flex;
+  align-items: center;
+  margin-bottom: 17px;
+}
+.card-message{
+  height: 58px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.card-avatar-container{
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-avatar-img{
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.card-name > .name{
+  font-size: 16px;
+  font-weight: 600;
+}
+.card-name > .time{
+  font-size: 14px;
+  color: var(--color-7589A3);
+}
+.card-name{
+  margin-left: 8px;
+  flex: 1;
+}
+.go-to-chat{
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-go-to-chat{
+  font-size: 20px;
+}
+.card-cta > .btn{
+  width: 162px;
+}
+.card-cta > .btn-primary{
+  margin-left: 8px;
+}
+.btn-reject{
+  width: 100%;
+}
