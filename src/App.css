@@ -34,6 +34,7 @@ a {
   flex-direction: column;
   background-color: #0091ff;
   max-width: 64px;
+  position: relative;
 }
 
 .top-tab {
@@ -83,6 +84,7 @@ a {
   align-items: center;
   justify-content: center;
   width: 64px;
+  cursor: pointer;
 }
 .selected{
   background-color: #006edc;
@@ -91,6 +93,7 @@ a {
   color: #fff;
   font-size: 26px;
   font-weight: 500;
+  margin: 20px;
 }
 .contact-search {
   height: 64px;
@@ -110,6 +113,23 @@ a {
   font-size: 14px;
   border-radius: 5px;
 }
+.add-icon{
+  border-radius: 3px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 4px;
+}
+.add-icon:hover {
+  background-color: var(--item-hover);
+  cursor: pointer;
+}
+.add-icon-img{
+  font-size: 20px;
+}
+
 .group-search {
   background-color: #eaedf0;
   position: relative;
@@ -588,3 +608,224 @@ a {
 .btn-reject{
   width: 100%;
 }
+
+/* Modal Add Friend */
+.modal-add-friend .modal-content{
+  height: 600px;
+  min-height: 300px;
+}
+.label-add-contact{
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.find-friend{
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.regions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  width: 101px;
+  margin-right: 16px;
+}
+.input-in-modal{
+  outline: none;
+  border: none;
+  font-size: 13px;
+  color: var(--color-7589A3);
+}
+.input-add-contact{
+  border-bottom: 1px solid var(--border);
+  flex: 1;
+}
+.text-inner{
+  font-size: 13px;
+  color: var(--color-7589A3);
+}
+.icon-inner{
+  font-size: 13px;
+  color: var(--color-7589A3);
+  margin-bottom: 1px;
+  margin-right: 2px;
+}
+.another-contact{
+  flex: 1;
+  margin-left: 8px;
+}
+.btn-add-friend-in-modal{
+  border: 1px solid #006edc;
+  color: #006edc;
+  padding: 0 16px;
+  background-color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.another-contact-container{
+  display: flex;
+  align-items: center;
+  height: 55px;
+  padding: 7px 15px;
+}
+.another-contact-name{
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.another-contact-description{
+  font-size: 12px;
+  color: var(--color-7589A3);
+  margin-top: 2px;
+}
+
+/* Modal Add Friend Finish */
+
+/* Modal Add Group  */
+.container-create-group{
+  display: flex;
+  align-items: center;
+  height: 80px;
+  margin-top: -20px;
+}
+.create-group-avatar{
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.create-group-avatar-img{
+  font-size: 20px;
+  color: var(--color-7589A3);
+}
+.create-group-name{
+  border-bottom: 1px solid var(--border);
+  flex: 1;
+  margin-left: 12px;
+}
+.search-contact-container{
+  display: flex;
+  align-items: center;
+  height: 36px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.search-contact-icon{
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-contact-icon{
+  font-size: 16px;
+  color: var(--color-7589A3);
+}
+.search-contact-input{
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--color-7589A3);
+  flex: 1;
+}
+.group-creator{
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+.cg-tag{
+  padding: 0 12px;
+  background-color: #eaedf0;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-right: 8px;
+}
+.cg-tag > .selected{
+  background-color: #006edc;
+  color: #fff;
+}
+.to-add-group{
+  border-top: 1px solid var(--border);
+}
+.to-add-group-label{
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 30px;
+}
+.contact-to-add-group{
+  display: flex;
+  align-items: center;
+  height: 52px;
+}
+.name-contact-to-add-group{
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.avatar-to-add-group{
+  margin: 0 12px;
+}
+
+
+
+/* Modal Add Group Finish */
+
+/* Modal Setting */
+.modal-setting{
+  width: 223px;
+  height: 280px;
+  z-index: 2;
+  padding: 8px;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 64px;
+  left: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+.setting-item{
+  padding: 0 12px;
+  margin: 0 -8px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.setting-item:hover{
+  background-color: var(--item-hover);
+}
+.setting-item-icon{
+  font-size: 20px;
+}
+.setting-item-name{
+  font-size: 14px;
+  color: #081c36;
+  margin-left: 16px;
+  flex: 1;
+}
+.setting-item:nth-child(3){
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+.setting-item:nth-child(6){
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 4px;
+}
+.label-logout{
+  color: #d91b1b;
+  font-size: 14px;
+  height: 36px;
+  line-height: 36px;
+  padding-top: 6px;
+  padding-left: 48px;
+}
+/* Modal Setting Finish */

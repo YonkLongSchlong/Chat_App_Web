@@ -1,9 +1,5 @@
 import React from "react";
 import { AiOutlineLike } from "react-icons/ai";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { IoSearchOutline } from "react-icons/io5";
-import { RiLiveLine } from "react-icons/ri";
-import { BsLayoutSidebarReverse } from "react-icons/bs";
 import { LuSticker } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 import { TiAttachment } from "react-icons/ti";
