@@ -6,6 +6,7 @@ import { FaRegSquareCheck } from "react-icons/fa6";
 import { IoBagHandle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import ModalSetting from "./ModalSetting";
+import ModalProfile from "./ModalProfile";
 
 
 function MainTab() {
@@ -13,18 +14,21 @@ function MainTab() {
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
-  const [showModal, setShowModal] = useState(false);
+  const [showModalSetting, setShowModalSetting] = useState(false);
+  const [showModalProfile, setShowModalProfile] = useState(false);
   const handleSettingsClick = () => {
-    setShowModal(true);
+    setShowModalSetting(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleProfileClick = () => {
+    setShowModalProfile(true);
   };
+
+
   return (
     <>
       <div className="main-tab">
-        <div className="avatar">
+        <div className="avatar" onClick={handleProfileClick}>
           <img
             src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
             alt=""
@@ -78,7 +82,8 @@ function MainTab() {
             </div>
           </div>
         </div>
-        {showModal && <ModalSetting closeModal={handleCloseModal} />}
+        {showModalSetting && <ModalSetting />}
+        {showModalProfile && <ModalProfile />}
       </div>
       
     </>

@@ -1,8 +1,11 @@
 import React from "react";
 
-function MessageItem() {
+function MessageItem({ showMessageViewHandler }) {
+  const handleClick = () => {
+    showMessageViewHandler();
+  };
   return (
-    <div className="message-item">
+    <div className="message-item" onClick={handleClick}>
       <div className="d-flex align-items-center justify-content-center">
         <div className="avatar-contact">
           <img

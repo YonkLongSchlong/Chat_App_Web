@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { IoPersonOutline } from "react-icons/io5";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -7,24 +7,9 @@ import { FiTool } from "react-icons/fi";
 import { MdLanguage } from "react-icons/md";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
-function ModalSetting({ closeModal }) {
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [closeModal]);
+function ModalSetting() {
   return (
-    <div ref={modalRef} className="modal-setting">
+    <div className="modal-setting">
       <div className="setting-item">
         <IoPersonOutline className="setting-item-icon" />
         <div className="setting-item-name">Thông tin tài khoản</div>
