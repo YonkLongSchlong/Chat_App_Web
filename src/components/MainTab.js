@@ -24,6 +24,10 @@ function MainTab() {
     setShowModalProfile(true);
   };
 
+  const handleCloseSettingModal = () => {
+    console.log("handleCloseSettingModal is called");
+    setShowModalSetting(false);
+  };
 
   return (
     <>
@@ -82,7 +86,7 @@ function MainTab() {
             </div>
           </div>
         </div>
-        {showModalSetting && <ModalSetting />}
+        {showModalSetting && <ModalSetting handleCloseSettingModal={handleCloseSettingModal}/>}
         {showModalProfile && <ModalProfile />}
       </div>
       

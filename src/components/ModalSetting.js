@@ -6,8 +6,9 @@ import { GoDatabase } from "react-icons/go";
 import { FiTool } from "react-icons/fi";
 import { MdLanguage } from "react-icons/md";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import ModalLogout from "./ModalLogout";
 
-function ModalSetting() {
+function ModalSetting({ handleCloseSettingModal }) {
   return (
     <div className="modal-setting">
       <div className="setting-item">
@@ -38,7 +39,7 @@ function ModalSetting() {
         <div className="setting-item-name">Giới thiệu</div>
         <MdKeyboardArrowRight className="setting-item-icon" />
       </div>
-      <div className=" setting-item label-logout">Đăng xuất</div>
+      <ModalLogout handleCloseSettingModal={handleCloseSettingModal}/>
     </div>
   );
 }

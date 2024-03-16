@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import Contact from "./pages/Contact";
 import ChatOnBoard from "./components/ChatOnBoard";
 import Todo from "./pages/Todo";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="todo" element={<Todo />} />
           </Route>
+          <Route path="login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>
