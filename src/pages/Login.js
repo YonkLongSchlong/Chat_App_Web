@@ -1,12 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { MdSmartphone } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
+
 
 function Login() {
   const [selectedItem, setSelectedItem] = useState("qr");
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const schema = Yup.object().shape({
+    phone: Yup.string().required("Vui lòng nhập số điện thoại"),
+    password: Yup.string().required("Vui lòng nhập mật khẩu"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      phone: "",
+      password: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(login(values))
+    },
+  });
+
+  const { user, isSuccess, message} = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isSuccess === true) {
+      toast.success("Đăng nhập thành công !!!");
+      navigate("/");
+      console.log(user)
+    }
+    else if(message){
+      toast.error("Số điện thoại hoặc mật khẩu không hợp lệ !!!");
+    }
+  }, [isSuccess, message]);
+
+
   return (
     <div>
       <div className="wrapper-page-login">
@@ -55,23 +98,43 @@ function Login() {
         {selectedItem === "password" && (
           <div className="form-login-password">
             <div className="password-container">
+              <form action="" onSubmit={formik.handleSubmit}>
               <div className="password-login">
                 <MdSmartphone className="password-login-input-icon" />
                 <input
                   placeholder="Số điện thoại"
                   className="password-login-input"
+                  name="phone"
+                  id="phone"
+                  value={formik.values.phone}
+                  onChange={formik.handleChange("phone")}
                 />
+              </div>
+              <div className="error">
+              {formik.touched.phone && formik.errors.phone ? (
+                <div>{formik.errors.phone}</div>
+              ) : null}
               </div>
               <div className="password-login">
                 <FaLock className="password-login-input-icon" />
                 <input
                   placeholder="Mật khẩu"
                   className="password-login-input"
+                  name="password"
+                  id="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange("password")}
                 />
               </div>
-              <button className="btn-login-by-password">
+              <div className="error">
+              {formik.touched.password && formik.errors.password ? (
+                <div>{formik.errors.password}</div>
+              ) : null}
+            </div>
+              <button className="btn-login-by-password" >
                 Đăng nhập với mật khẩu
               </button>
+              </form>
               <button className="btn-login-by-phone">
                 Đăng nhập bằng thiết bị di động
               </button>

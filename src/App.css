@@ -22,6 +22,10 @@ a {
   display: flex;
   height: 100vh;
 }
+.error{
+  color: red;
+  font-size: 12px;
+}
 
 .sidebar {
   display: flex;
@@ -1184,6 +1188,7 @@ a {
   margin-left: 10px;
   color: #333;
   font-weight: 500;
+  width: 100%;
 }
 .password-login-input-icon{
   font-size: 14px;

@@ -5,6 +5,9 @@ import Contact from "./pages/Contact";
 import ChatOnBoard from "./components/ChatOnBoard";
 import Todo from "./pages/Todo";
 import Login from "./pages/Login";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -19,6 +22,18 @@ function App() {
           <Route path="login" element={<Login />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
