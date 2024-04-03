@@ -7,6 +7,7 @@ import { IoBagHandle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import ModalSetting from "./ModalSetting";
 import ModalProfile from "./ModalProfile";
+import { useSelector } from "react-redux";
 
 
 function MainTab() {
@@ -29,12 +30,22 @@ function MainTab() {
     setShowModalSetting(false);
   };
 
+  const handleCloseModalProfile = () => {
+    setShowModalProfile(false);
+  };
+
+  const userState = useSelector((state) => state.user.user.user)
+  console.log(userState)
+
+  const avatarSrc = userState.avatar === "https://example.com/cute-pusheen.jpg" ? "images/avatar-default.jpg" : userState?.avatar;
+
   return (
     <>
       <div className="main-tab">
         <div className="avatar" onClick={handleProfileClick}>
           <img
-            src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
+            // src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
+            src={avatarSrc}
             alt=""
             className="avatar-img"
           />
@@ -87,7 +98,7 @@ function MainTab() {
           </div>
         </div>
         {showModalSetting && <ModalSetting handleCloseSettingModal={handleCloseSettingModal}/>}
-        {showModalProfile && <ModalProfile />}
+        {showModalProfile && <ModalProfile handleCloseModalProfile ={handleCloseModalProfile}/>}
       </div>
       
     </>

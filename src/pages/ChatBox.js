@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import Header from "./Header";
-import MessageView from "./MessageView";
-import FriendList from "./FriendList";
-import HomePageSlider from "./HomePageSlider";
 
-function ChatOnBoard() {
+import React, { useState } from "react";
+import Header from "../components/Header";
+import MessageView from "../components/MessageView";
+import FriendList from "../components/FriendList";
+import HomePageSlider from "../components/HomePageSlider";
+
+function ChatBox() {
   const [showMessageView, setShowMessageView] = useState(false);
 
   const showMessageViewHandler = () => {
@@ -35,12 +36,9 @@ function ChatOnBoard() {
         )}
       </div>
 
-      {/* <div className="chat-on-board w-100">
-        <Header />
-        <MessageView />
-      </div> */}
+      
     </div>
   );
 }
 
-export default ChatOnBoard;
+export default ChatBox;
