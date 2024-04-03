@@ -13,12 +13,12 @@ const getaUser = async (id) => {
 };
 
 const updateProfile = async (user) => {
-  const response = await axios.get(
+  const response = await axios.patch(
     `${base_url}user/${user.id}/profile`,
     {
       username: user.userData.username,
       gender: user.userData.gender,
-      dob: user.userData.dob,
+      dob: user.userData.dob
     },
     config
   );

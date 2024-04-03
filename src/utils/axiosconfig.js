@@ -9,4 +9,5 @@ export const config = {
     }`,
     Accept: "application/json",
   },
+  
 };
