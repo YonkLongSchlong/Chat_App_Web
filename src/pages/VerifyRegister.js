@@ -1,106 +1,90 @@
-import React, { useState, useEffect } from "react";
-import { MdSmartphone } from "react-icons/md";
+import React, { useEffect } from "react";
 import { FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { register, verifyRegister } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
+import { BiUser } from "react-icons/bi";
 
-function Login() {
-  const [selectedItem, setSelectedItem] = useState("qr");
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-  };
-
+function VerifyRegister() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { createdUser } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!createdUser || !createdUser.otp) {
+      return navigate("/register");
+    }
+  }, [createdUser, navigate]);
+
   const schema = Yup.object().shape({
-    phone: Yup.string().required("Vui lòng nhập số điện thoại"),
+    username: Yup.string().required("Vui lòng nhập tài khoản của bạn"),
     password: Yup.string().required("Vui lòng nhập mật khẩu"),
+    confirmPassword: Yup.string().required("Mật khẩu không khớp"),
   });
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      username: "",
       password: "",
+      confirmPassword: "",
     },
     validationSchema: schema,
-    onSubmit: (values) => {
-      dispatch(login(values));
+    onSubmit: async (values) => {
+      if (values.password !== values.confirmPassword) {
+        toast.error("Mật khẩu không khớp");
+        return;
+      }
+
+      const res = await dispatch(
+        verifyRegister({
+          ...values,
+          otp: createdUser.otp,
+          phone: createdUser.phone,
+        })
+      );
+
+      if (res.type.includes("fulfilled")) {
+        toast.success("Đăng ký thành công !!!");
+        navigate("/login");
+      } else {
+        toast.error("Đăng ký thất bại");
+      }
     },
   });
-
-  const { user, isSuccess, message } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isSuccess === true) {
-      toast.success("Đăng nhập thành công !!!");
-      navigate("/");
-    } else if (message) {
-      toast.error("Số điện thoại hoặc mật khẩu không hợp lệ !!!");
-    }
-  }, [isSuccess, message]);
 
   return (
     <div>
       <div className="wrapper-page-login">
         <img src="./images/zlogo.png" alt="logo" width={114} height={41} />
         <h6>
-          Đăng nhập tài khoản Zalo
+          Đăng ký tài khoản Zalo
           <br />
           để kết nối với ứng dụng Zalo Web
         </h6>
-        <div className="option-form-login">
-          <div
-            className={`login-by-qr ${
-              selectedItem === "qr" ? "login-selected" : ""
-            }`}
-            onClick={() => handleItemClick("qr")}
-          >
-            VỚI MÃ QR
-          </div>
-          <div
-            className={`login-by-password ${
-              selectedItem === "password" ? "login-selected" : ""
-            }`}
-            onClick={() => handleItemClick("password")}
-          >
-            VỚI SỐ ĐIỆN THOẠI
-          </div>
-        </div>
 
-        {selectedItem === "qr" && (
-          <div className="form-login">
-            <div className="qr-container">
-              <img
-                src="./images/qrcode.png"
-                alt="qrcode"
-                width={224}
-                height={224}
-              />
-              <p className="qr-guide text-blue">Chỉ dùng để đăng nhập</p>
-              <p className="qr-guide">Zalo trên máy tính</p>
-            </div>
-            <p className="qr-description">
-              Sử dụng ứng dụng Zalo để quét mã QR
-            </p>
+        <div
+          className="form-login-password"
+          style={{ height: "100%", borderRadius: "5px" }}
+        >
+          <div style={{ fontSize: "2rem", textAlign: "center" }}>
+            Đăng ký Zalo
           </div>
-        )}
-        {selectedItem === "password" && (
-          <div className="form-login-password">
-            <div className="password-container">
-              <form action="" onSubmit={formik.handleSubmit}>
+          <div className="password-container">
+            <form action="" onSubmit={formik.handleSubmit}>
+              <div>
                 <div className="password-login">
-                  <MdSmartphone className="password-login-input-icon" />
+                  <BiUser className="password-login-input-icon" />
                   <input
-                    placeholder="Số điện thoại"
+                    placeholder="Tên tài khoản"
                     className="password-login-input"
-                    name="phone"
-                    id="phone"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange("phone")}
+                    name="username"
+                    id="username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange("username")}
                   />
                 </div>
                 <div className="error">
@@ -124,21 +108,35 @@ function Login() {
                     <div>{formik.errors.password}</div>
                   ) : null}
                 </div>
-                <button className="btn-login-by-password">
-                  Đăng nhập với mật khẩu
-                </button>
-              </form>
-              <button className="btn-login-by-phone">
-                Đăng nhập bằng thiết bị di động
-              </button>
-              <div className="forget-password">Quên mật khẩu?</div>
+                <div className="password-login">
+                  <FaLock className="password-login-input-icon" />
+                  <input
+                    placeholder="Nhập lại mật khẩu"
+                    className="password-login-input"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange("confirmPassword")}
+                  />
+                </div>
+                <div className="error">
+                  {formik.touched.password && formik.errors.password ? (
+                    <div>{formik.errors.password}</div>
+                  ) : null}
+                </div>
+              </div>
+              <button className="btn-login-by-password">Đăng ký</button>
+            </form>
+
+            <hr />
+            <div
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Đã có tài khoản? <a href="/login"> Đăng nhập ngay</a>
             </div>
           </div>
-        )}
-
-        <hr />
-        <div>
-          Chưa có tài khoản? <a href="/register">Đăng kí ngay</a>
         </div>
       </div>
       <div className="bg-svg">
@@ -181,4 +179,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default VerifyRegister;

@@ -260,7 +260,9 @@ function Contact() {
                     <BsChatText className="icon-go-to-chat" />
                   </div>
                 </div>
-                <button className="btn btn-secondary btn-reject">Thu hồi lời mời</button>
+                <button className="btn btn-secondary btn-reject">
+                  Thu hồi lời mời
+                </button>
               </div>
             </div>
           </div>

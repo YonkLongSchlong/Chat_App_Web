@@ -7,6 +7,11 @@ const register = async (user) => {
   return response.data;
 };
 
+const verifyRegister = async (user) => {
+  const response = await axios.post(`${base_url}auth/verifyRegister`, user);
+  return response.data;
+};
+
 const login = async (user) => {
   const response = await axios.post(`${base_url}auth/login`, user);
   if (response.data) {
@@ -21,6 +26,7 @@ const logout = async () => {
 };
 
 const authService = {
+  verifyRegister,
   register,
   login,
   logout,
