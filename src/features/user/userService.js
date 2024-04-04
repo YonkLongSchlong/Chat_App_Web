@@ -18,17 +18,31 @@ const updateProfile = async (user) => {
     {
       username: user.userData.username,
       gender: user.userData.gender,
-      dob: user.userData.dob
+      dob: user.userData.dob,
     },
+    config
+  );
+  if (response.data) {
+    localStorage.setItem("User", JSON.stringify(response.data));
+  }
+  return response.data;
+};
+
+const uploadAvatar = async (id, file ) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  const response = await axios.patch(
+    `${base_url}user/${id}/avatar`,
+    formData,
     config
   );
   return response.data;
 };
 
-
 const userService = {
   getUsers,
   getaUser,
   updateProfile,
+  uploadAvatar
 };
 export default userService;

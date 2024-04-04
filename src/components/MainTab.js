@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { BsChatTextFill } from "react-icons/bs";
 import { MdOutlinePermContactCalendar, MdOutlineCloud } from "react-icons/md";
@@ -7,7 +7,8 @@ import { IoBagHandle } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import ModalSetting from "./ModalSetting";
 import ModalProfile from "./ModalProfile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getaUser } from "../features/user/userSlice";
 
 
 function MainTab() {
@@ -34,11 +35,8 @@ function MainTab() {
     setShowModalProfile(false);
   };
 
-  const userState = useSelector((state) => state.user.user.user)
-  console.log(userState)
-
-  const avatarSrc = userState.avatar === "https://example.com/cute-pusheen.jpg" ? "images/avatar-default.jpg" : userState?.avatar;
-
+  const userState = useSelector((state) => state?.user?.user?.user || state?.user?.user)
+  const avatarSrc = userState?.avatar === "https://example.com/cute-pusheen.jpg" ? "images/avatar-default.jpg" : userState?.avatar;
   return (
     <>
       <div className="main-tab">

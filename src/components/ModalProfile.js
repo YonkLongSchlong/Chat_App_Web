@@ -22,11 +22,11 @@ function ModalProfile({handleCloseModalProfile}) {
 
   // ref={profileRef}
 
-  const userState = useSelector((state) => state.user.user.user);
+  const userState = useSelector((state) => state?.user?.user?.user || state?.user?.user);
 
   return (
     <div className="modal-profile" >
-      <div className="profile-name">{userState.username}</div>
+      <div className="profile-name">{userState?.username}</div>
       <ModalProfileDetail handleCloseModalProfile={handleCloseModalProfile}/>
       <div className="profile-item ">Cài đặt</div>
       <div className="profile-item profile-logout">Đăng xuất</div>
