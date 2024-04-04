@@ -59,7 +59,7 @@ function VerifyRegister() {
   return (
     <div>
       <div className="wrapper-page-login">
-        <img src="./images/zlogo.png" alt="logo" width={114} height={41} />
+        <img src="./public/images/zlogo.png" alt="logo" width={114} height={41} />
         <h6>
           Đăng ký tài khoản Zalo
           <br />

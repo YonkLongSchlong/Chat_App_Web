@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ChatBox from "./pages/ChatBox";
 import Register from "./pages/Register";
 import VerifyRegister from "./pages/VerifyRegister";
-
+import Otp from "./pages/Otp";
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="register/confirm" element={<VerifyRegister />} />
+          <Route path="/register/otp" element={<Otp />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer

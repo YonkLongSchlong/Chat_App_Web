@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdSmartphone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -6,10 +6,28 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from '../firebase/setup';
+import { Button } from "react-bootstrap";
 
 function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [phone, setPhone] = useState("");
+  const [user, setUser] = useState(null); 
+
+  const sendOtp = async () => {
+    try {
+      const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
+      const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha)
+      setUser(confirmation)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const schema = Yup.object().shape({
     phone: Yup.string().required("Vui lòng nhập số điện thoại"),
@@ -57,13 +75,15 @@ function Register() {
               <div>
                 <div className="password-login">
                   <MdSmartphone className="password-login-input-icon" />
-                  <input
+                  <PhoneInput
+                    country={'vn'}
                     placeholder="Số điện thoại"
                     className="password-login-input"
                     name="phone"
                     id="phone"
                     value={formik.values.phone}
-                    onChange={formik.handleChange("phone")}
+                    // onChange={formik.handleChange("phone")}
+                    onChange={(phone) => setPhone("+" + phone)}
                   />
                 </div>
                 <div className="error"></div>
@@ -72,7 +92,9 @@ function Register() {
                 ) : null}
               </div>
 
-              <button className="btn-login-by-password">Xác nhận</button>
+              <Button className="btn-login-by-password" onClick={sendOtp}>Xác nhận</Button>
+
+              <div id="recaptcha"></div>
             </form>
 
             <hr />
