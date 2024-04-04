@@ -7,10 +7,12 @@ export default function Otp() {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [otp, setOtp] = useState('');
+  const navigate = useNavigate();
 
   const verifyOtp = async () => {
     try {
       await user.confirm(otp);
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }

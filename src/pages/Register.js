@@ -12,6 +12,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from '../firebase/setup';
 import { Button } from "react-bootstrap";
 
+
 function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,8 +23,9 @@ function Register() {
   const sendOtp = async () => {
     try {
       const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {});
-      const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha)
-      setUser(confirmation)
+      const confirmation = await signInWithPhoneNumber(auth, phone, recaptcha);
+      setUser(confirmation);
+      navigate("/register/otp");
     } catch (error) {
       console.log(error);
     }
