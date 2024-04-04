@@ -32,16 +32,16 @@ function Login() {
     },
   });
 
-  const { user, isSuccess, message } = useSelector((state) => state.auth);
+  const {message } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isSuccess === true) {
+    if (message === "Login successful") {
       toast.success("Đăng nhập thành công !!!");
       navigate("/");
-    } else if (message) {
+    } else if (message === "Login fail") {
       toast.error("Số điện thoại hoặc mật khẩu không hợp lệ !!!");
     }
-  }, [isSuccess, message]);
+  }, [message]);
 
   return (
     <div>

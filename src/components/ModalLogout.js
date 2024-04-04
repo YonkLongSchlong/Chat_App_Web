@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-function ModalLogout({ handleCloseSettingModal }) {
+function ModalLogout({ handleCloseSettingModal, handleCloseModalProfile }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    handleCloseSettingModal();
+    handleCloseModalProfile();
+  };
   const handleShow = () => {
-    console.log("handleShow is called")
-    handleCloseSettingModal(); // Đóng ModalSetting
     setShow(true);
   };
+  const handleLogout = () => {
+    dispatch(logout());
+    setShow(false);
+  };
+  const { message } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (message === "Logout successful") {
+      localStorage.removeItem("User");
+      localStorage.removeItem("token");
+      navigate("/login");
+      toast.success("Đăng xuất thành công !!!");
+    }else if(message === "Logout fail"){
+      toast.error("Đăng xuất thất bại !!!");
+    }
+  }, [message]);
+
   return (
     <>
       <div className=" setting-item label-logout" onClick={handleShow}>
@@ -33,7 +58,7 @@ function ModalLogout({ handleCloseSettingModal }) {
           <Button variant="secondary" onClick={handleClose}>
             Không
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleLogout}>
             Đăng xuất
           </Button>
         </Modal.Footer>

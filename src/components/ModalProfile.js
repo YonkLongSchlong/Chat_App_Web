@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import ModalProfileDetail from "./ModalProfileDetail";
 import { useSelector } from "react-redux";
+import ModalLogout from "./ModalLogout";
 
 function ModalProfile({handleCloseModalProfile}) {
   // const profileRef = useRef(null);
@@ -29,7 +30,8 @@ function ModalProfile({handleCloseModalProfile}) {
       <div className="profile-name">{userState?.username}</div>
       <ModalProfileDetail handleCloseModalProfile={handleCloseModalProfile}/>
       <div className="profile-item ">Cài đặt</div>
-      <div className="profile-item profile-logout">Đăng xuất</div>
+      {/* <div className="profile-item profile-logout">Đăng xuất</div> */}
+      <ModalLogout handleCloseModalProfile={handleCloseModalProfile}/>
     </div>
   );
 }
