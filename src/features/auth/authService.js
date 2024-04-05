@@ -13,7 +13,7 @@ const verifyRegister = async (user) => {
 };
 
 const login = async (user) => {
-  const response = await axios.post(`${base_url}auth/login`, user);
+  const response = await axios.post(`${base_url}auth/login`,user);
   if (response.data) {
     localStorage.setItem("User", JSON.stringify(response.data));
   }

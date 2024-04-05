@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -20,17 +20,25 @@ function VerifyRegister() {
     }
   }, [createdUser, navigate]);
 
+  const handleGenderChange = (e) => {
+    formik.setFieldValue("gender", e.target.value);
+  };
+
   const schema = Yup.object().shape({
     username: Yup.string().required("Vui lòng nhập tài khoản của bạn"),
     password: Yup.string().required("Vui lòng nhập mật khẩu"),
     confirmPassword: Yup.string().required("Mật khẩu không khớp"),
+    otp: Yup.string().required("Vui lòng nhập otp"),
   });
+
 
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
       confirmPassword: "",
+      gender: "Nam",
+      otp: "",
     },
     validationSchema: schema,
     onSubmit: async (values) => {
@@ -38,11 +46,12 @@ function VerifyRegister() {
         toast.error("Mật khẩu không khớp");
         return;
       }
+      let submitValues = { ...values };
+      delete submitValues.confirmPassword;
 
       const res = await dispatch(
         verifyRegister({
-          ...values,
-          otp: createdUser.otp,
+          ...submitValues,
           phone: createdUser.phone,
         })
       );
@@ -119,6 +128,39 @@ function VerifyRegister() {
                     onChange={formik.handleChange("confirmPassword")}
                   />
                 </div>
+                <div className="d-flex gap-5 mb-3">
+                  <div>
+                    <input
+                      type="radio"
+                      id="male"
+                      name="gender"
+                      value="Nam"
+                      onChange={handleGenderChange}
+                    />
+                    <label className="label-radio">Nam</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="html"
+                      name="gender"
+                      value="Nữ"
+                      onChange={handleGenderChange}
+                    />
+                    <label className="label-radio">Nữ</label>
+                  </div>
+                  
+                </div>
+                <div className="password-login">
+                    <input
+                      placeholder="OTP"
+                      id="otp"
+                      name="otp"
+                      className="password-login-input"
+                      value={formik.values.otp}
+                      onChange={formik.handleChange("otp")}
+                    />
+                  </div>
                 <div className="error">
                   {formik.touched.password && formik.errors.password ? (
                     <div>{formik.errors.password}</div>
