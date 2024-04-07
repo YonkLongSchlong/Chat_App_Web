@@ -431,7 +431,7 @@ a {
 .card-list-wrapper {
   margin: 0 auto;
   padding: 0 16px;
-  height: 580px;
+  height: 600px;
   background-color: #f7f7f8;
 }
 .card-list-wrapper .title {
@@ -564,6 +564,7 @@ a {
   background-color: #fff;
   border-radius: 6px;
   padding: 16px;
+  margin-bottom: 16px;
 }
 .card-user {
   display: flex;
@@ -899,6 +900,23 @@ a {
   padding-left: 32px;
   padding-bottom: 16px;
   border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+}
+.profile-info-container-find {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: -20px;
+  padding-left: 32px;
+  padding-bottom: 16px;
+}
+.wrapper-find{
+  border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+}
+.add-friend-action-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
 }
 .profile-info-avatar {
   width: 80px;

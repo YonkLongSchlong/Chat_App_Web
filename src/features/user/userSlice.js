@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import userService from "./userService";
 
 const getUserFromLocalStorage = localStorage.getItem("User")
@@ -56,6 +56,19 @@ export const uploadAvatar = createAsyncThunk(
   }
 );
 
+export const findUserByPhones= createAsyncThunk(
+  "user/find-user-by-phones",
+  async ({ id, phones }, thunkAPI) => {
+    try {
+      return await userService.findUserByPhones(id,phones);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const resetState = createAction("Reset_all");
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -84,7 +97,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.getAUser = action.payload;
       })
       .addCase(getaUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -122,6 +135,22 @@ export const userSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
+      .addCase(findUserByPhones.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(findUserByPhones.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.findUserByPhone = action.payload;
+      })
+      .addCase(findUserByPhones.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(resetState, () => initialState);
   },
 });
 
