@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ContactSearch from "./ContactSearch";
 import { IoIosMore } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import MessageItem from "./MessageItem";
+import {useDispatch, useSelector} from "react-redux";
+import { getAllConversations } from "../features/message/messageSlice";
 
 function FriendList({ showMessageViewHandler }) {
   const [selectedItem, setSelectedItem] = useState("all");
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
+  const userState = useSelector((state) => state?.user?.user?.user || state?.user?.user);
+  const dispatch = useDispatch();
+  const getConversationsFromDb = () => {
+    if (userState?._id) {
+      dispatch(getAllConversations(userState._id));
+    }
+  };
+
+  useEffect(() => {
+    getConversationsFromDb();
+  }, [userState?._id]);     // Chỉ gọi lại khi userState._id thay đổi
+
+  const conversationState = useSelector((state) => state?.message?.getAllConversations);
   return (
     <div className="contain">
       <ContactSearch />
@@ -41,16 +56,12 @@ function FriendList({ showMessageViewHandler }) {
       </div>
       {selectedItem === "all" && (
         <>
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
+          <MessageItem showMessageViewHandler={showMessageViewHandler} data={conversationState ? conversationState : []}/>
         </>
       )}
       {selectedItem === "unread" && (
         <>
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
-          <MessageItem showMessageViewHandler={showMessageViewHandler} />
+          <MessageItem showMessageViewHandler={showMessageViewHandler} data={conversationState ? conversationState : []}/>
         </>
       )}
     </div>

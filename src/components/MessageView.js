@@ -41,42 +41,6 @@ function MessageView() {
             <div className="time-chat-message">00:01</div>
           </div>
         </div>
-        <div className="chat-item">
-          <div className="chat-avatar">
-            <img
-              src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
-              alt=""
-              className="chat-avatar-img"
-            />
-          </div>
-          <div className="chat-content">
-            <div className="card">
-              <div className="chat-message">Chúc mừng năm mới</div>
-              <div className="time-chat-message">00:01</div>
-              <div className="message-reaction">
-                <AiOutlineLike />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="chat-item">
-          <div className="chat-avatar">
-            <img
-              src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
-              alt=""
-              className="chat-avatar-img"
-            />
-          </div>
-          <div className="chat-content">
-            <div className="card">
-              <div className="chat-message">Chúc mừng năm mới</div>
-              <div className="time-chat-message">00:01</div>
-              <div className="message-reaction">
-                <AiOutlineLike />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div className="toolbar">
         <div className="toolbar-icon icon">
