@@ -10,7 +10,7 @@ import { PiUserListBold } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
 import { BsChatText } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { confirmFriendAccept, getAllFriendsRequest, getFriendsList } from "../features/friend/friendSlice";
+import { confirmFriendAccept, getAllFriendsRequest, getFriendsList, resetState } from "../features/friend/friendSlice";
 
 
 function Contact() {
@@ -41,6 +41,7 @@ function Contact() {
   const handleAcceptFriendRequest = async (requesterId) =>{
     await dispatch(confirmFriendAccept({ id: userState?._id, requesterId : requesterId }))
     dispatch(getAllFriendsRequest(userState._id));
+    dispatch(resetState());
   }
 
   const friendsList = useSelector((state) => state?.friend?.getFriendsList)
@@ -88,7 +89,7 @@ function Contact() {
               <span>Danh sách bạn bè</span>
             </div>
             <div className="card-list-wrapper">
-              <div className="title">Bạn bè (84)</div>
+              <div className="title">Bạn bè ({friendsList ? friendsList.length : 0})</div>
               <div className="card-contact">
                 <div className="contact-filter">
                   <div className="group-search">
@@ -235,7 +236,7 @@ function Contact() {
               <span>Lời mời kết bạn</span>
             </div>
             <div className="card-list-wrapper">
-              <div className="title">Lời mời đã nhận (1)</div>
+              <div className="title">Lời mời đã nhận ({friendRequests?.length ? friendRequests?.length : 0})</div>
               {friendRequests?.map((request, index) =>(
                 <div key={index} className="card-wrapper">
                 <div className="card-user">
