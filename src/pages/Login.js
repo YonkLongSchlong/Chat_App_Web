@@ -32,7 +32,7 @@ function Login() {
     },
   });
 
-  const {message } = useSelector((state) => state.auth);
+  const {message } = useSelector((state) => state?.auth);
 
   useEffect(() => {
     if (message === "Login successful") {

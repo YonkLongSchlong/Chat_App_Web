@@ -12,8 +12,8 @@ function ModalLogout({ handleCloseSettingModal, handleCloseModalProfile }) {
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
-    handleCloseSettingModal();
-    handleCloseModalProfile();
+    if (handleCloseSettingModal) handleCloseSettingModal();
+    if (handleCloseModalProfile) handleCloseModalProfile();
   };
   const handleShow = () => {
     setShow(true);

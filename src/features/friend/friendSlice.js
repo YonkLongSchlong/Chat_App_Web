@@ -50,6 +50,38 @@ export const getFriendsList= createAsyncThunk(
   }
 );
 
+export const cancelFriendRequest= createAsyncThunk(
+  "friend/cancel-friend-request",
+  async ({id, recipentId},thunkAPI) => {
+    try {
+      return await friendService.cancelFriendRequest(id, recipentId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const declineFriendRequest= createAsyncThunk(
+  "friend/decline-friend-request",
+  async (id,thunkAPI) => {
+    try {
+      return await friendService.declineFriendRequest(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getAllFriendRequestSented= createAsyncThunk(
+  "friend/getAll-friend-request-sented",
+  async (id,thunkAPI) => {
+    try {
+      return await friendService.getAllFriendRequestSented(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetState = createAction("Reset_all");
 
 export const friendSlice = createSlice({
@@ -113,6 +145,51 @@ export const friendSlice = createSlice({
         state.getFriendsList = action.payload;
       })
       .addCase(getFriendsList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(cancelFriendRequest.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(cancelFriendRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.canceledFriendRequest = action.payload;
+      })
+      .addCase(cancelFriendRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(declineFriendRequest.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(declineFriendRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.declinedFriendRequest = action.payload;
+      })
+      .addCase(declineFriendRequest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getAllFriendRequestSented.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllFriendRequestSented.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.getAllFriendRequestSented = action.payload;
+      })
+      .addCase(getAllFriendRequestSented.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

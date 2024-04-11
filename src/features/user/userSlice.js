@@ -100,7 +100,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.getAUser = action.payload;
+        state.user = action.payload;
       })
       .addCase(getaUser.rejected, (state, action) => {
         state.isLoading = false;

@@ -8,7 +8,7 @@ import { MdLanguage } from "react-icons/md";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import ModalLogout from "./ModalLogout";
 
-function ModalSetting({ handleCloseSettingModal }) {
+function ModalSetting({ handleCloseSettingModal, handleCloseModalProfile }) {
   return (
     <div className="modal-setting">
       <div className="setting-item">
@@ -39,7 +39,10 @@ function ModalSetting({ handleCloseSettingModal }) {
         <div className="setting-item-name">Giới thiệu</div>
         <MdKeyboardArrowRight className="setting-item-icon" />
       </div>
-      <ModalLogout handleCloseSettingModal={handleCloseSettingModal}/>
+      <ModalLogout
+        handleCloseSettingModal={handleCloseSettingModal}
+        handleCloseModalProfile={handleCloseModalProfile}
+      />
     </div>
   );
 }
