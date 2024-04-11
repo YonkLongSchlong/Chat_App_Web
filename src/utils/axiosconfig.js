@@ -1,5 +1,6 @@
-const getTokenFromSessionStorage = sessionStorage.getItem("token")
-  ? JSON.parse(sessionStorage.getItem("token"))
+// const getTokenFromSessionStorage = sessionStorage.getItem("token")
+const getTokenFromSessionStorage = localStorage.getItem("token")
+  ? JSON.parse(localStorage.getItem("token"))
   : null;
 
 export const config = {

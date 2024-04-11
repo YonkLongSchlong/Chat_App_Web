@@ -54,16 +54,32 @@ function FriendList({ showMessageViewHandler }) {
           <IoIosMore className="filter-more-icon" />
         </div>
       </div>
-      {selectedItem === "all" && (
+      {/* {selectedItem === "all" && (
         <>
-          <MessageItem showMessageViewHandler={showMessageViewHandler} data={conversationState ? conversationState : []}/>
+          <MessageItem data={conversationState ? conversationState : []}/>
         </>
       )}
       {selectedItem === "unread" && (
         <>
-          <MessageItem showMessageViewHandler={showMessageViewHandler} data={conversationState ? conversationState : []}/>
+          <MessageItem data={conversationState ? conversationState : []}/>
         </>
-      )}
+      )} */}
+      {selectedItem === "all" && (
+  <>
+    <MessageItem 
+      data={conversationState ? conversationState : []} 
+     showMessageViewHandler={showMessageViewHandler}
+    />
+  </>
+)}
+{selectedItem === "unread" && (
+  <>
+    <MessageItem 
+      data={conversationState ? conversationState : []} 
+      showMessageViewHandler={showMessageViewHandler}
+    />
+  </>
+)}
     </div>
   );
 }
