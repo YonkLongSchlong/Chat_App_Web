@@ -10,8 +10,15 @@ import { PiUserListBold } from "react-icons/pi";
 import { RiGroupLine } from "react-icons/ri";
 import { BsChatText } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { confirmFriendAccept, getAllFriendsRequest, getFriendsList, resetState } from "../features/friend/friendSlice";
-
+import {
+  cancelFriendRequest,
+  confirmFriendAccept,
+  getAllFriendRequestSented,
+  getAllFriendsRequest,
+  getFriendsList,
+  resetState,
+} from "../features/friend/friendSlice";
+import { getaUser } from "../features/user/userSlice";
 
 function Contact() {
   const [selectedList, setSelectedList] = useState("friends");
@@ -28,8 +35,9 @@ function Contact() {
 
   useEffect(() => {
     if (userState?._id) {
-      dispatch(getAllFriendsRequest(userState._id));
-      dispatch(getFriendsList(userState._id));
+      dispatch(getAllFriendsRequest(userState?._id));
+      dispatch(getFriendsList(userState?._id));
+      dispatch(getAllFriendRequestSented(userState?._id));
     }
   }, [userState]);
 
@@ -38,15 +46,32 @@ function Contact() {
   );
   console.log("Friend request", friendRequests);
 
-  const handleAcceptFriendRequest = async (requesterId) =>{
-    await dispatch(confirmFriendAccept({ id: userState?._id, requesterId : requesterId }))
+  const handleAcceptFriendRequest = async (requesterId) => {
+    await dispatch(
+      confirmFriendAccept({ id: userState?._id, requesterId: requesterId })
+    );
     dispatch(getAllFriendsRequest(userState._id));
+    dispatch(getaUser(userState?._id));
     dispatch(resetState());
-  }
+  };
 
-  const friendsList = useSelector((state) => state?.friend?.getFriendsList)
+  const friendsList = useSelector((state) => state?.friend?.getFriendsList);
   console.log("Friend list: ", friendsList);
-  
+
+  const listSented = useSelector(
+    (state) => state?.friend?.getAllFriendRequestSented
+  );
+  console.log("list sented", listSented);
+
+  const handleCancelFriendRequest = async (recipentId) => {
+    await dispatch(
+      cancelFriendRequest({ id: userState?._id, recipentId: recipentId })
+    );
+    dispatch(getAllFriendRequestSented(userState?._id));
+    dispatch(getaUser(userState?._id));
+    dispatch(resetState());
+  };
+
   return (
     <div className="contact">
       <div className="menu-contact">
@@ -89,7 +114,9 @@ function Contact() {
               <span>Danh sách bạn bè</span>
             </div>
             <div className="card-list-wrapper">
-              <div className="title">Bạn bè ({friendsList ? friendsList.length : 0})</div>
+              <div className="title">
+                Bạn bè ({friendsList ? friendsList.length : 0})
+              </div>
               <div className="card-contact">
                 <div className="contact-filter">
                   <div className="group-search">
@@ -112,13 +139,16 @@ function Contact() {
                   </div>
                 </div>
                 <span className="label">Bạn mới</span>
-                {friendsList?.map((friend, index) =>(
-                  
-                  
+                {friendsList?.map((friend, index) => (
                   <div className="friend-item" key={index}>
                     <div className="avatar-friend">
                       <img
-                        src={friend?.avatar === "https://example.com/cute-pusheen.jpg" ? "images/avatar-default.jpg" :friend?.avatar}
+                        src={
+                          friend?.avatar ===
+                          "https://example.com/cute-pusheen.jpg"
+                            ? "images/avatar-default.jpg"
+                            : friend?.avatar
+                        }
                         alt=""
                         className="avatar-img"
                       />
@@ -129,7 +159,6 @@ function Contact() {
                     </div>
                   </div>
                 ))}
-                
               </div>
             </div>
           </div>
@@ -141,7 +170,7 @@ function Contact() {
               <span>Danh sách nhóm</span>
             </div>
             <div className="card-list-wrapper">
-              <div className="title">Nhóm (59)</div>
+              <div className="title">Nhóm (2)</div>
               <div className="card-contact">
                 <div className="contact-filter">
                   <div className="group-search">
@@ -236,57 +265,87 @@ function Contact() {
               <span>Lời mời kết bạn</span>
             </div>
             <div className="card-list-wrapper">
-              <div className="title">Lời mời đã nhận ({friendRequests?.length ? friendRequests?.length : 0})</div>
-              {friendRequests?.map((request, index) =>(
+              <div className="title">
+                Lời mời đã nhận (
+                {friendRequests?.length ? friendRequests?.length : 0})
+              </div>
+              {friendRequests?.map((request, index) => (
                 <div key={index} className="card-wrapper">
-                <div className="card-user">
-                  <div className="card-avatar-container">
-                    <img
-                      src={request?.req?.avatar === "https://example.com/cute-pusheen.jpg" ? "images/avatar-default.jpg" :request?.req?.avatar}
-                      alt=""
-                      className="card-avatar-img"
-                    />
+                  <div className="card-user">
+                    <div className="card-avatar-container">
+                      <img
+                        src={
+                          request?.req?.avatar ===
+                          "https://example.com/cute-pusheen.jpg"
+                            ? "images/avatar-default.jpg"
+                            : request?.req?.avatar
+                        }
+                        alt=""
+                        className="card-avatar-img"
+                      />
+                    </div>
+                    <div className="card-name">
+                      <div className="name">{request?.req?.username}</div>
+                      <div className="time">
+                        {new Date(request?.createdAt).toLocaleString()} - Từ số
+                        điện thoại
+                      </div>
+                    </div>
+                    <div className="go-to-chat">
+                      <BsChatText className="icon-go-to-chat" />
+                    </div>
                   </div>
-                  <div className="card-name">
-                    <div className="name">{request?.req?.username}</div>
-                    <div className="time">{new Date(request?.createdAt).toLocaleString()} - Từ số điện thoại</div>
+                  <div className="card-message">
+                    Xin chào mình là {request?.req?.username}. Mình tìm thấy bạn
+                    bằng số điện thoại. Kết bạn với mình nhé
                   </div>
-                  <div className="go-to-chat">
-                    <BsChatText className="icon-go-to-chat" />
+                  <div className="card-cta">
+                    <button className="btn btn-secondary">Từ chối</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        handleAcceptFriendRequest(request?.req?._id)
+                      }
+                    >
+                      Đồng ý
+                    </button>
                   </div>
                 </div>
-                <div className="card-message">
-                  Xin chào mình là {request?.req?.username}. Mình tìm thấy bạn bằng số
-                  điện thoại. Kết bạn với mình nhé
-                </div>
-                <div className="card-cta">
-                  <button className="btn btn-secondary">Từ chối</button>
-                  <button className="btn btn-primary" onClick={() => handleAcceptFriendRequest(request?.req?._id)}>Đồng ý</button>
-                </div>
-              </div>
               ))}
-              <div className="title">Đã gửi lời mời (1)</div>
-              <div className="card-wrapper">
-                <div className="card-user">
-                  <div className="card-avatar-container">
-                    <img
-                      src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
-                      alt=""
-                      className="card-avatar-img"
-                    />
-                  </div>
-                  <div className="card-name">
-                    <div className="name">Ánh Tv Học Viên</div>
-                    <div className="time">Bạn đã gửi lời mời</div>
-                  </div>
-                  <div className="go-to-chat">
-                    <BsChatText className="icon-go-to-chat" />
-                  </div>
-                </div>
-                <button className="btn btn-secondary btn-reject">
-                  Thu hồi lời mời
-                </button>
+              <div className="title">
+                Đã gửi lời mời ({listSented?.length ? listSented?.length : 0})
               </div>
+              {listSented?.map((send, index) => (
+                <div key={index} className="card-wrapper">
+                  <div className="card-user">
+                    <div className="card-avatar-container">
+                      <img
+                        src={
+                          send?.recei?.avatar ===
+                          "https://example.com/cute-pusheen.jpg"
+                            ? "images/avatar-default.jpg"
+                            : send?.recei?.avatar
+                        }
+                        alt=""
+                        className="card-avatar-img"
+                      />
+                    </div>
+                    <div className="card-name">
+                      <div className="name">{send?.recei?.username}</div>
+                      <div className="time">Bạn đã gửi lời mời</div>
+                    </div>
+                    <div className="go-to-chat">
+                      <BsChatText className="icon-go-to-chat" />
+                    </div>
+                  </div>
+                  <button
+                    className="btn btn-secondary btn-reject"
+                    onClick={() => handleCancelFriendRequest(send?.recei?._id)}
+                  >
+                    Thu hồi lời mời
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         )}

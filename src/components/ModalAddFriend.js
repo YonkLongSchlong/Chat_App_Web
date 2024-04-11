@@ -6,13 +6,14 @@ import { FaFlagCheckered } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  findUserByPhones,
-} from "../features/user/userSlice";
+import { findUserByPhones, getaUser } from "../features/user/userSlice";
 import { LuPencilLine } from "react-icons/lu";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { toast } from "react-toastify";
-import { createFriendRequest, resetState } from "../features/friend/friendSlice";
+import {
+  createFriendRequest,
+  resetState,
+} from "../features/friend/friendSlice";
 
 function ModalAddFriend() {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ function ModalAddFriend() {
   const handleSearch = () => {
     dispatch(findUserByPhones({ id: userState?._id, phones: phoneNumber }));
   };
-  console.log("Phone number:", phoneNumber)
+  console.log("Phone number:", phoneNumber);
 
   const findUserByPhone = useSelector((state) => state?.user?.findUserByPhone);
   const createdFriendRequest = useSelector(
@@ -67,7 +68,7 @@ function ModalAddFriend() {
   }, [findUserByPhone]);
   useEffect(() => {
     if (createdFriendRequest) {
-      if (createdFriendRequest === "Request was already exist") {
+      if (createdFriendRequest === "Request was already sent") {
         toast.info("Bạn đã gửi lời mời kết bạn đến người này rồi !!!");
       } else {
         toast.success("Đã gửi lời mời kết bạn thành công !!!");
@@ -81,13 +82,35 @@ function ModalAddFriend() {
 
   // Dùng await để chắc chắn createFriendRequest được gọi xong mới gọi resetState
   const handleCreateFriendRequest = async () => {
-    await dispatch(createFriendRequest({ id: userState?._id, recipentId: firstUser?._id }));
+    await dispatch(
+      createFriendRequest({ id: userState?._id, recipentId: firstUser?._id })
+    );
     handleClose();
     dispatch(resetState());
   };
 
+  const [isFriend, setIsFriend] = useState(false); // State để kiểm tra xem là bạn bè hay không
 
+  useEffect(() => {
+    if (
+      firstUser &&
+      firstUser?._id &&
+      userState &&
+      userState?.friends.includes(firstUser?._id)
+    ) {
+      setIsFriend(true); // Nếu là bạn bè, cập nhật state
+    } else {
+      setIsFriend(false);
+    }
+  }, [firstUser, userState]);
 
+  const handleCall = () =>{
+    console.log("Call")
+  }
+
+  useEffect(()=>{
+    dispatch(getaUser(userState?._id));
+  }, [])
   return (
     <>
       <div className="add-icon" onClick={handleShow}>
@@ -202,11 +225,11 @@ function ModalAddFriend() {
                 </div>
                 <div className="add-friend-action-button gap-3">
                   <Button
-                    variant="secondary"
-                    onClick={handleCreateFriendRequest}
+                    variant={isFriend ? "primary" : "secondary"} // Chọn variant dựa trên trạng thái bạn bè
+                    onClick={isFriend ? handleCall : handleCreateFriendRequest} // Gọi hàm handleCall nếu là bạn bè, ngược lại gọi handleCreateFriendRequest
                     style={{ width: "45%" }}
                   >
-                    Kết bạn
+                    {isFriend ? "Gọi thoại" : "Kết bạn"}
                   </Button>
                   <Button
                     variant="primary"

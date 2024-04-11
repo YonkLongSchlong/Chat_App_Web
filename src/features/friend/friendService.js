@@ -37,10 +37,37 @@ const getFriendList = async (id) => {
   return response.data;
 };
 
+const cancelFriendRequest = async (id, recipentId) => {
+  const response = await axios.put(
+    `${base_url}friends/${id}/${recipentId}/cancel`,
+    { id, recipentId },
+    config
+  );
+  return response.data;
+};
+
+const declineFriendRequest = async (id) => {
+  const response = await axios.get(
+    `${base_url}friends/${id}/decline`,
+    config
+  );
+  return response.data;
+};
+const getAllFriendRequestSented = async (id) => {
+  const response = await axios.get(
+    `${base_url}friends/${id}/requests/sented`,
+    config
+  );
+  return response.data;
+};
+
 const friendService = {
   createFriendRequest,
   confirmFriendAccept,
   getAllFriendsRequest,
-  getFriendList
+  getFriendList,
+  cancelFriendRequest,
+  declineFriendRequest,
+  getAllFriendRequestSented
 };
 export default friendService;
