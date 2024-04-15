@@ -20,7 +20,9 @@ function FriendList({ showMessageViewHandler }) {
   };
 
   useEffect(() => {
-    getConversationsFromDb();
+    if(userState?._id !==null){
+      getConversationsFromDb();
+    }
   }, [userState?._id]);     // Chỉ gọi lại khi userState._id thay đổi
 
   const conversationState = useSelector((state) => state?.message?.getAllConversations);

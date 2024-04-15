@@ -15,64 +15,41 @@ import { SlLike } from "react-icons/sl";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getAllConversations } from "../features/message/messageSlice";
 import { useState } from "react";
-
-
-
+import axios from "axios";
+import { config } from "../utils/axiosconfig";
 
 function MessageView() {
   const userState = useSelector((state) => state?.user?.user?.user || state?.user?.user);
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
+  console.log("Token:",typeof token);
   const [message, setMessage] = useState([]);
   const render = useSelector((state) => state.render.renderResult);
-
   useEffect(() => {
     const friend = JSON.parse(localStorage.getItem("Friend"));
-    const token = localStorage.getItem("token");
+    console.log("Token:", token);
     console.log("Friend:", friend);
-    fetch('http://localhost:5000/messages/' + friend._id,
-    {
-      method: 'GET', // hoặc 'POST', 'PUT', 'DELETE', etc.
-      headers: {
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjE2Mjk0ZWNlMjA5YTEyZmUwZjFmZWEiLCJpYXQiOjE3MTI4NTcwMTUsImV4cCI6MTcxMjg1NzA0NX0.Mw7_PtE9Cvtd-FHCYFh3DmHitjxpPudzf3WwqNg0CxE` // Chỉ định token trong header Authorization
-      }
-    })
-      .then(response => response.json())
-      .then(json => setMessage(json))
-      
+    const user = JSON.parse(localStorage.getItem("User"));
+    
+    if (friend) {
+      axios.get('http://localhost:5000/messages/'  + friend._id , config)
+        .then(response => {
+          console.log(response.data);
+          setMessage(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data: ', error);
+        });
+    }
+
   }, [userState?._id, render]);
 
   // Chỉ gọi lại khi userState._id thay đổi
- 
+
   return (
     <div className="container-message">
       <div className="message-view">
-        {/* <div className="chat-item">
-          <div className="chat-avatar">
-            <img
-              src="https://s120-ava-talk.zadn.vn/4/4/a/2/1/120/9207b2750ba3206d04791ae71ad00a1e.jpg"
-              alt=""
-              className="chat-avatar-img"
-            />
-          </div>
-          <div className="chat-content">
-            <div className="card">
-              <div className="chat-message">Chúc mừng năm mới</div>
-              <div className="time-chat-message">00:01</div>
-              <div className="message-reaction">
-                <AiOutlineLike />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="chat-item-me">
-          <div className="card">
-            <div className="chat-message">Chúc mừng năm mới</div>
-            <div className="time-chat-message">00:01</div>
-          </div>
-        </div> */}
         {message && message.length > 0 && message.map((item) => {
           return (
             <div className="chat-item" key={item._id}>
@@ -85,8 +62,8 @@ function MessageView() {
               </div>
               <div className="chat-content">
                 <div className="card">
-                  <div className="chat-message">{item.text}</div>
-                  <div className="time-chat-message">00:01</div>
+                  <div className="chat-message">{item.message}</div>
+                  <div className="time-chat-message">{item.createdAt}</div>
                   <div className="message-reaction">
                     <AiOutlineLike />
                   </div>
@@ -95,7 +72,7 @@ function MessageView() {
             </div>
           );
         })}
-  
+
       </div>
       <div className="toolbar">
         <div className="toolbar-icon icon">

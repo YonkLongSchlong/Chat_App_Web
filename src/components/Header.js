@@ -28,27 +28,7 @@ useEffect(() => {
   return () => {
     window.removeEventListener('storage', updateSelectedFriend);
   };
-}, [render]); 
-
-// const [selectedFriend, setSelectedFriend] = useState(null);
-
-// useEffect(() => {
-//   // Update the selected friend when the component mounts or when localStorage changes
-//   const friend = localStorage.getItem("Friend");
-//   setSelectedFriend(JSON.parse(friend));
-// }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
-
-// useEffect(() => {
-//   // Force a re-render when localStorage changes
-//   const handleStorageChange = () => {
-//     setSelectedFriend(JSON.parse(localStorage.getItem("Friend")));
-//   };
-
-//   window.addEventListener('storage', handleStorageChange);
-//   return () => {
-//     window.removeEventListener('storage', handleStorageChange);
-//   };
-// }, []);
+}, [render]);
 
   return (
     <>

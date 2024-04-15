@@ -16,29 +16,41 @@ function MessageItem({ showMessageViewHandler, data }) {
 
   // Nhận data là conversations được get từ DB
   console.log("Data:", data);
-  const user = JSON.parse(localStorage.getItem("User"))
+
   const [Friends, setFriends] = useState([]);
   //  const Friends = localStorage.getItem("Friends");
 
 
   useEffect(() => {
-    // const user1  = JSON.parse(localStorage.getItem("User"));
+    const user = JSON.parse(localStorage.getItem("User"))
     console.log("User:", user);
     console.log("User_id:", user.user._id);
     const user_id = user.user._id;
+    const fetchFriends = async () => {
+      const token = localStorage.getItem("token");
 
-    axios
-      .post("http://localhost:5000/user/getUserbyID", {
-        id: user_id,
-      })
-      .then((res) => {
-        if (res.data.message === "Tìm thấy danh sách bạn bè") {
-          setFriends(res.data.friends);
-          console.log("Friends:", res.data.friends);
+
+      const response = await fetch('http://localhost:5000/user/find/' + user_id,
+        {
+          method: 'GET', // hoặc 'POST', 'PUT', 'DELETE', etc.
+          headers: {
+            'Authorization': `Bearer ${token}` // Chỉ định token trong header Authorization
+          }
+        })
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          setFriends(data.friends)
+        } else {
+          console.log("Error");
         }
-      })
+      }
+    }
+    fetchFriends();
     //  
   }, []);
+  console.log("Friends:", Friends);
+
   // Hàm lấy friend id từ người nhận và người gửi để lấy conversation
   const showDetailFriend = (friend_id) => {
 
@@ -54,36 +66,6 @@ function MessageItem({ showMessageViewHandler, data }) {
 
   return (
     <>
-      {/* {Array.isArray(Friends) && Friends.length > 0 && Friends.map((item) => {
-  return (
-    <div className="message-item" onClick={handleClick()} key={item._id}>
-      <div className="d-flex align-items-center justify-content-center">
-        <div className="avatar-contact">
-          <img
-            src={
-              
-              item?.avatar === "https://example.com/cute-pusheen.jpg"
-                ? "images/avatar-default.jpg"
-                : item?.avatar
-            }
-            onClick={showDetailFriend(item._id)}
-            alt=""
-            className="avatar-img"
-          />
-        </div>
-        <div>
-          <div className="name-contact">{item?.username}</div>
-          <div className="content-contact">
-            {Array.isArray(item.messages) && item.messages.length > 0 ? item.messages[item.messages.length - 1].message : ''}
-          </div>
-        </div>
-      </div>
-      <div className="time-contact">
-        {Array.isArray(item.messages) && item.messages.length > 0 ? new Date(item.messages[item.messages.length - 1].createdAt).toLocaleString() : ''}
-      </div>
-    </div>
-  );
-})} */}
       {Array.isArray(Friends) && Friends.length > 0 && Friends.map((item) => {
         return (
           <div className="message-item" onClick={handleClick} key={item._id}>
